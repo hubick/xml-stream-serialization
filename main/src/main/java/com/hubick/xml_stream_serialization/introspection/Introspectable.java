@@ -1151,7 +1151,8 @@ public interface Introspectable extends XMLSerializable {
        * @return The {@link Builder} this method was invoked on.
        */
       public <V> Builder<I> primitiveChild(final Class<V> valueType, final boolean valueTypeExtensions, final String propName, final String valueName, final @Nullable Iterable<? extends @Nullable V> values, final Function<? super V,? extends String> valueToString) {
-        return put(propName, new PrimitiveCollection<V>(type, valueType, valueTypeExtensions, valueName, (values != null) ? mapValues(values, (value) -> (value != null) ? valueToString.apply(value) : null) : null));
+        final Iterable<? extends String> stringValues = (values != null) ? this.<V,String> mapValues(values, (value) -> (value != null) ? valueToString.apply(value) : null) : null;
+        return put(propName, new PrimitiveCollection<V>(type, valueType, valueTypeExtensions, valueName, stringValues));
       }
 
       /**
